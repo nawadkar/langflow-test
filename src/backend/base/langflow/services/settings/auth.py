@@ -29,8 +29,8 @@ class AuthSettings(BaseSettings):
 
     # If AUTO_LOGIN = True
     # > The application does not request login and logs in automatically as a super user.
-    AUTO_LOGIN: bool = True
-    NEW_USER_IS_ACTIVE: bool = False
+    AUTO_LOGIN: bool = False
+    NEW_USER_IS_ACTIVE: bool = True
     SUPERUSER: str = DEFAULT_SUPERUSER
     SUPERUSER_PASSWORD: str = DEFAULT_SUPERUSER_PASSWORD
 
@@ -51,6 +51,13 @@ class AuthSettings(BaseSettings):
     """The domain attribute of the cookies. If None, the domain is not set."""
 
     pwd_context: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+    # Auth0 settings
+    AUTH0_DOMAIN: str = Field("", description="Auth0 domain")
+    AUTH0_CLIENT_ID: str = Field("", description="Auth0 client ID")
+    AUTH0_CLIENT_SECRET: str = Field("", description="Auth0 client secret")
+    AUTH0_AUDIENCE: str = Field("", description="Auth0 API audience")
+    AUTH0_CALLBACK_URL: str = Field("", description="Auth0 callback URL")
 
     class Config:
         validate_assignment = True

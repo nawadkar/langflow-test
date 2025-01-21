@@ -16,9 +16,9 @@ if TYPE_CHECKING:
 class User(SQLModel, table=True):  # type: ignore[call-arg]
     id: UUIDstr = Field(default_factory=uuid4, primary_key=True, unique=True)
     username: str = Field(index=True, unique=True)
-    password: str = Field()
+    password: str | None = Field(default=None, nullable=True)
     profile_image: str | None = Field(default=None, nullable=True)
-    is_active: bool = Field(default=False)
+    is_active: bool = Field(default=True)
     is_superuser: bool = Field(default=False)
     create_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -37,6 +37,8 @@ class User(SQLModel, table=True):  # type: ignore[call-arg]
         back_populates="user",
         sa_relationship_kwargs={"cascade": "delete"},
     )
+    auth0_user_id: str | None = Field(default=None, nullable=True, index=True)
+    email: str | None = Field(default=None, nullable=True, index=True)
 
 
 class UserCreate(SQLModel):
